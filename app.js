@@ -11,6 +11,7 @@ const morgan = require("morgan")
 const passport = require("passport")
 
 const allRoutes = require("./routes")
+const authRoutes = require("./routes/authRoute")
 //CONNECT DB
 const connect = async () => {
     try {
@@ -42,13 +43,14 @@ app.use(cors(corsOptions))
 app.use(morgan('dev'))
 app.use(express.json())
 
+// passport init
+require('./config/passport')
+app.use(passport.authenticate('session'));
+
 // ROUTES 
+app.use(authRoutes)
 app.use(allRoutes)
-app.get("/", (req, res) => {
-    // this is testing for express-session only
- //const lt =  req.session
-    res.json("wwww")
-})
+
 // ERROR HANDLER
 
 app.use((err, req, res, next) => {
