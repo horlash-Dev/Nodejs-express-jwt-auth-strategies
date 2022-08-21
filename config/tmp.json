@@ -3,6 +3,5 @@
     "date": "august",
     "age": "56",
     "clas": "mendel",
-    "others": {"post": "34"},
-    "arr": ["34","444",444]
+    "others": {"post": "34"}
 }
