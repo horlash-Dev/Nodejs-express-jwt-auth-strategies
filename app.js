@@ -47,7 +47,8 @@ app.use(allRoutes)
 app.get("/", (req, res) => {
     // this is testing for express-session only
  //const lt =  req.session
-    res.json("wwww")
+   req.session.user ? res.json({home: req.session?.user})
+   :  res.json({msg: "login first!! go to /login"})
 })
 // ERROR HANDLER
 
