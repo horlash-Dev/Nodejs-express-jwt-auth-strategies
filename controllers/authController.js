@@ -1,6 +1,9 @@
 const User = require('../model/UserSchema');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const JWTtoken = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
 
 const register = async (req, res) => {
     const { username, phone, pass} = req.body.data
@@ -31,6 +34,36 @@ const logOut = (req, res) => {
     })
 }
 
+
+// JWT AUTH ACTION CODE
+const readPriv = {key: fs.readFileSync(path.join(__dirname, "..", "config", "priv_key.rem"), "utf-8"), passphrase: "app.key"}
+
+const jwtLogin =  async (req, res) => {
+    try {
+        const { username, password} = req.body
+        const getUser = await User.findOne({username: username}).exec()
+        if(!getUser) return res.sendStatus(401)
+        const compare = await  bcrypt.compare(password, getUser.pass)
+        if(!compare) return res.sendStatus(401)
+        // sign token
+        let name = getUser.username
+        const signToken = JWTtoken.sign({ aud: name, iss: "localhost" }, readPriv, {algorithm: 'RS256', expiresIn: "1h" }, (err, token) => {
+        
+            if(err) return res.sendStatus(500)
+            res.cookie('auth_token', token, { httpOnly: true, maxAge: 1000})
+            res.status(200).json({token, user: getUser})
+        })
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+
+const jwtLogout = (req, res) => {
+
+    res.clearCookie("auth_token",{httpOnly: true})
+    res.redirect("/")
+}
+
 module.exports = {
-    register,login, logOut
+    register,login, logOut, jwtLogin, jwtLogout
 }

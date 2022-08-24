@@ -1,15 +1,12 @@
 // BACKEND  PACKAGES
 const express = require("express")
 const app = express()
-const expressSession = require('express-session')
-const expressVal = require('express-validator')
 const mongoose = require('mongoose')
-const MongoStore = require('connect-mongo')
 const env = require('dotenv').config()
 const cors = require('cors')
 const morgan = require("morgan")
 const passport = require("passport")
-
+const cookieparser = require('cookie-parser');
 const allRoutes = require("./routes")
 const authRoutes = require("./routes/authRoute")
 //CONNECT DB
@@ -29,24 +26,15 @@ const { credentials, corsOptions } = require("./config/credentials")
 
 app.use(logEvent)
 
-app.use(expressSession({
-    secret: process.env.CS_SESSION,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({mongoUrl: process.env.MONGODB_URI}),
-    cookie: {maxAge: 3600000}
-}))
-
 app.use(credentials)
 app.use(cors(corsOptions))
 
 app.use(morgan('dev'))
 app.use(express.json())
+app.use(cookieparser())
 
-// passport init
-require('./config/passport')
-app.use(passport.authenticate('session'));
-
+// passport jwt init
+require('./config/jwtVerify')
 // ROUTES 
 app.use(authRoutes)
 app.use(allRoutes)
