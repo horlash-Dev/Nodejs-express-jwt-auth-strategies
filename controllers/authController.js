@@ -4,7 +4,7 @@ const passport = require('passport');
 const JWTtoken = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
-
+//local strategy for local and jwt (signup)
 const register = async (req, res) => {
     const { username, phone, pass} = req.body.data
     const hash = await bcrypt.hash(pass,8)
