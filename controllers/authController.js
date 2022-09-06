@@ -35,7 +35,7 @@ const logOut = (req, res) => {
 }
 
 
-// JWT AUTH ACTION CODE
+// JWT AUTH ACTION CODE and login code
 const readPriv = {key: fs.readFileSync(path.join(__dirname, "..", "config", "priv_key.rem"), "utf-8"), passphrase: "app.key"}
 
 const jwtLogin =  async (req, res) => {

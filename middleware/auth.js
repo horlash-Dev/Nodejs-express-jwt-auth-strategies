@@ -1,4 +1,4 @@
-// for jwt-auth only
+// middlware
 const passport = require('passport');
 // local strategy
 exports.isAuth = async (req, res, next) => {
