@@ -1,7 +1,7 @@
 const User = require('../model/UserSchema');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-
+// comtrollers for auth
 const register = async (req, res) => {
     const { username, phone, pass} = req.body.data
     const hash = await bcrypt.hash(pass,8)
