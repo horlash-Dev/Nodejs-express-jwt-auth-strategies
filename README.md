@@ -1,8 +1,6 @@
 ## PASSPORT AUTTHENTIATION STRATEGY
 # THIS PROJECT CONTAIN 3 DIFFRENT BRANCH FOR EACH STRATEGY
-## LOCAL STRATEGY (local-auth)
-## JWT PASSPORT (passport-jwt-auth)
-## express session (starter branch)
+## LOCAL STRATEGY (local-auth) (current branch)
 
 ## this node js express application is mainly meant for authentication strategy and to be implemented to any frontend framework (vuejs, angular js).
 
